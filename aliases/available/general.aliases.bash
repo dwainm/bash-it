@@ -59,6 +59,11 @@ fi
 alias md='mkdir -p'
 alias rd='rmdir'
 
+cpdir() {
+  echo "${PWD##*/}" | pbcopy
+  echo "${PWD##*/} copied"
+}
+
 # Display whatever file is regular file or folder
 catt() {
   for i in "$@"; do
@@ -68,4 +73,54 @@ catt() {
       cat "$i"
     fi
   done
+}
+
+###
+# Sourcing other scripts
+##
+[[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+export PATH="$PATH:$HOME/.composer/vendor/bin" #add composer script to global bin
+
+###
+# Git
+##
+alias gap="git add -p"
+
+function gbdel(){
+  git branch | grep $1 | xargs git branch -D
+}
+
+function gco(){
+  git branch | grep $1 | xargs git checkout
+}
+
+function gpo(){
+  git rev-parse --abbrev-ref HEAD | xargs git push -u origin
+}
+
+###
+#navigation
+##
+alias cdplug="cd /Users/dwain/vagrant/senseim/www/wordpress-trunk/wp-content/plugins"
+alias cdbook="cd /Users/dwain/vagrant/senseim/www/wordpress-trunk/wp-content/plugins/woocommerce-bookings/"
+
+export CLICOLOR=1
+
+
+function handkerchief {
+  # change this path to the location of handkerchief.py
+  hand=~/bin/handkerchief/handkerchief.py
+  if [[ $1 != "" ]] ; then
+    python $hand $1
+    else
+    repo=$(git remote -v | head -n1 | awk '{print $2}' | sed -e 's,.*:\(.*/\)\?,,' -e 's/\.git$//')
+    if [[ $repo == *https://* ]] ; then
+      python $hand ${repo#https://github.com/}
+    elif [[ $repo == *git@github.com* ]] ; then
+      python $hand ${repo#git@github.com:}
+    else
+      echo "Provide parameter"
+    fi
+  fi
 }
