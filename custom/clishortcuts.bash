@@ -8,13 +8,13 @@ export PATH="$PATH:$HOME/.composer/vendor/bin" #add composer script to global bi
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 #nodejs
 #SOURCE_STR="\nexport NVM_DIR=\"$NVM_DIR\"\n[ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"  # This loads nvm"
-export NVM_DIR="$PATH:$HOME/.nvm" 
+export NVM_DIR="$PATH:$HOME/.nvm"
 [ "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"  # This loads nvm
 
 ###
 #navigation
 ##
-alias cdbook="cd /Users/dwain/vagrant/wcvagrant/www/wordpress-trunk/wp-content/plugins/woocommerce-bookings/"
+alias cdbook="cd /Users/dwain/vagrant/wcvagrant/www/wordpress-default/wp-content/plugins/woocommerce-bookings/"
 
 ##Defults
 export CLICOLOR=1
@@ -39,6 +39,14 @@ function gpo(){
   git rev-parse --abbrev-ref HEAD | xargs git push -u origin
 }
 
+function download() {
+	if [ `which curl` ]; then
+		curl -s "$1" > "$2";
+	elif [ `which wget` ]; then
+		wget -nv -O "$2" "$1"
+	fi
+}
+
 function gpof(){
   git rev-parse --abbrev-ref HEAD | xargs git push -fu origin
 }
@@ -61,8 +69,12 @@ dater(){
 ###
 #navigation
 ##
-function cdplug(){
-	cd /Users/dwain/vagrant/wcvagrant/www/wordpress-trunk/wp-content/plugins/$1
+function cdplugin(){
+	cd /Users/dwain/vagrant/wcvagrant/www/wordpress-default/wp-content/plugins/$1
+}
+
+function cdgosrc(){
+  cd /Users/dwain/Go/workspace/src/github.com
 }
 
 alias cdbook="cd /Users/dwain/vagrant/wcvagrant/www/wordpress-trunk/wp-content/plugins/woocommerce-bookings/"
