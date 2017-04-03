@@ -28,17 +28,20 @@ function gbdel(){
   git branch | grep $1 | xargs git branch -D
 }
 
-function gco(){
+function gcol(){
+  #git checkout like %branch%
   git branch | grep $1 | xargs git checkout
+}
+function vimrc(){
+vi ~/.vim/vimrc
 }
 function gcob(){
     git checkout -b $1
 }
 
-function gpo(){
-  git rev-parse --abbrev-ref HEAD | xargs git push -u origin
+function gpoc(){
+  git rev-parse --abbrev-ref HEAD | xargs git push --set-upstream origin
 }
-
 function download() {
 	if [ `which curl` ]; then
 		curl -s "$1" > "$2";
@@ -49,6 +52,11 @@ function download() {
 
 function gpof(){
   git rev-parse --abbrev-ref HEAD | xargs git push -fu origin
+}
+
+function gcd() {
+	REPONAME=$(node -e "console.log(process.argv[1].match(/.*?\/([a-zA-Z0-9\-]+).git/)[1]);" $1)
+	git clone $1 && cd "${REPONAME}"
 }
 
 #CLI
